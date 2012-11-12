@@ -1,0 +1,8 @@
+This run_svm.py script was written to help run the tests for SVMs (as
+the formatting for input/output/comparing was extremely tedious). I
+have not included anything else here on purpose - this is just so that
+you can see how I ended up doing it if you'd like. (Note that this is for
+Windows and uses the precompiled SVMLight binaries.)
+
+It is in no way a polished product, so please do not treat it as such. 
+This is just an extra (that was not asked for in the handin).
