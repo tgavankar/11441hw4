@@ -32,7 +32,7 @@ public class LogisticRegressionRunner {
 	
 		// Training data is no longer required, replace it with parsed test data
 		data = dp.parseTest();
-	
+		
 		// Classify test data
 		for(int i=0; i<data.size(); i++) {
 			AbstractEntry entry = data.get(i);
@@ -41,10 +41,19 @@ public class LogisticRegressionRunner {
 			double max = Double.NEGATIVE_INFINITY;
 			int maxLabel = 0;
 			
-			double score = lrl.get(0).classify(entry.getList());
+			double pred = lrl.get(0).classify(entry.getList());
 							
-			// Output score
-			System.out.println(score);			
+			if(pred > 0.5) {
+				maxLabel = 1;
+			}
+			
+			entry.setPredLabel(maxLabel);
+			
+
+			System.out.println(pred);
+			
+			// Output predicted label
+			//System.out.println(entry.getPredLabel());			
 		}
 	}
 	

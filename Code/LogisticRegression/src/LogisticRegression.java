@@ -48,28 +48,23 @@ public class LogisticRegression implements Serializable {
 				AbstractEntry entry = data.get(i);
 				SparseTermList X = entry.getList();
 				// Get boolean value from desired label
-				double y = (entry.getActualLabel() == this.label) ? 1 : -1;
+				double y = (entry.getActualLabel() == this.label) ? 1 : 0;
 				// Optimization, calculate sigmoid once
-				double hx = sigmoidu(-1 * y * dotp(W, X));
+				double hx = sigmoid(W, X);
 				
 				for(int j=0; j<W.length; j++) {
-					W.put(j, W.get(j) + this.learnRate * y * X.get(j) * hx - this.learnRate * (C * W.get(j)));
+					W.put(j, W.get(j) + this.learnRate * (y - hx) * X.get(j) - this.learnRate * (C * W.get(j)));
 				}
 			}
 			// Get distance between previous and current weight vectors
 			dist = dist(prevW, W);
 			// Resave old weight vector
 			prevW = W.deepCopy();
-			
 		} while(dist > this.converges);
 	}
 	
 	private double sigmoid(SparseTermList W, SparseTermList X) {
 		return 1.0 / (1.0 + Math.exp(-1.0 * dotp(W, X)));
-	}
-	
-	private double sigmoidu(double u) {
-		return 1.0 / (1.0 + Math.exp(-1.0 * u));
 	}
 	
 	/**
@@ -133,9 +128,6 @@ public class LogisticRegression implements Serializable {
 	 * @return double
 	 */
 	public double classify(SparseTermList X) {
-		double neg = sigmoidu(-1 * dotp(this.W, X));
-		double pos = sigmoidu(1 * dotp(this.W, X));
-		
-		return pos - neg;
+		return sigmoid(this.W, X);
 	}
 }
