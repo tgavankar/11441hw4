@@ -17,6 +17,8 @@ public class LogisticRegressionRunner {
 		
 		List<LogisticRegression> lrl = new ArrayList<LogisticRegression>();
 		
+		long startTime = System.currentTimeMillis();
+		
 		for(int i=1; i<2; i++) {
 			LogisticRegression lr = new LogisticRegression(i, 0.01, Double.parseDouble(dp.config.get("c")), 0.0001, dp.maxTermSize);
 		
@@ -27,11 +29,15 @@ public class LogisticRegressionRunner {
 			lrl.add(lr);
 		}
 		
+		long endTime = System.currentTimeMillis();
+		
 		// Uncomment this if you want to save the learned classifiers to disk
 		//flushToDisk(lr, "w");
 	
 		// Training data is no longer required, replace it with parsed test data
 		data = dp.parseTest();
+		
+		System.out.println(endTime - startTime);
 		
 		// Classify test data
 		for(int i=0; i<data.size(); i++) {
@@ -42,19 +48,11 @@ public class LogisticRegressionRunner {
 			int maxLabel = 0;
 			
 			double pred = lrl.get(0).classify(entry.getList());
-							
-			if(pred > 0.5) {
-				maxLabel = 1;
-			}
-			
-			entry.setPredLabel(maxLabel);
-			
-
-			System.out.println(pred);
 			
 			// Output predicted label
-			//System.out.println(entry.getPredLabel());			
+			System.out.println(pred);			
 		}
+		
 	}
 	
 	/**
